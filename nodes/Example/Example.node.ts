@@ -13,6 +13,7 @@ export class Example implements INodeType {
 		icon: { light: 'file:example.svg', dark: 'file:example.dark.svg' },
 		group: ['input'],
 		version: 1,
+		subtitle: '={{$parameter["myString"]}}',
 		description: 'Basic Example Node',
 		defaults: {
 			name: 'Example',
@@ -59,13 +60,6 @@ export class Example implements INodeType {
 				if (this.continueOnFail()) {
 					items.push({ json: this.getInputData(itemIndex)[0].json, error, pairedItem: itemIndex });
 				} else {
-					// Adding `itemIndex` allows other workflows to handle this error
-					if (error.context) {
-						// If the error thrown already contains the context property,
-						// only append the itemIndex
-						error.context.itemIndex = itemIndex;
-						throw error;
-					}
 					throw new NodeOperationError(this.getNode(), error, {
 						itemIndex,
 					});
